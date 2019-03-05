@@ -1,0 +1,15 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="brainvire_admin_employee_listing_data_source" xsi:type="string">Brainvire\Admin\Model\ResourceModel\Employee\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Brainvire\Admin\Model\ResourceModel\Employee\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">brainvire_employee</argument>
+            <argument name="resourceModel" xsi:type="string">Brainvire\Admin\Model\ResourceModel\Employee</argument>
+        </arguments>
+    </virtualType>
+</config>

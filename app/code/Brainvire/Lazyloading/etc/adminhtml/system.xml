@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+	<system>
+		<tab id="brainvire" translate="label" sortOrder="400">
+			<label><![CDATA[Brainvire]]></label>
+		</tab>
+		<section id="brainvire_lazyloading" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+			<class>separator-top</class>
+			<label>Lazy Loading</label>
+			<tab>brainvire</tab>
+			<resource>Brainvire_Lazyloading::config</resource>
+			<group id="general" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>General Settings</label>
+				<field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled</label> 
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment><![CDATA[If enabled then it will work on product lising page.]]></comment>
+				</field>
+				<field id="categories" translate="label comment" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Use in Categories</label>
+					<source_model>Brainvire\Lazyloading\Model\Config\Source\Categories</source_model> 
+				</field>				
+				<field id="enabled_search" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Use in Search </label> 
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field> 
+				<field id="enabled_advanced" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Use in Advanced Search</label> 
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="content" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Content</label>
+					<comment><![CDATA[Selector for the element that surrounds the items you will be loading more of.<br/>
+						e.g .product-items or #product-items]]></comment>
+				</field>
+			</group>				
+		</section>
+	</system>
+</config>

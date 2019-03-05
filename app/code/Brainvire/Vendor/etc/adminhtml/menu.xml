@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>        
+        <add id="Brainvire_Vendor::vendor" title="Vendors" module="Brainvire_Vendor" sortOrder="51" resource="Brainvire_Vendor::vendor"/>
+        <add id="Brainvire_Vendor::vendordata" title="Manage Vendors" module="Brainvire_Vendor" sortOrder="10" action="bvvendors/vendors" resource="Brainvire_Vendor::vendors" parent="Brainvire_Vendor::vendor"/>
+    </menu>
+</config>

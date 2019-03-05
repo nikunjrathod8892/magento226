@@ -1,0 +1,62 @@
+<?php
+    $currentCategory = $block->getCurrentCategory();
+    $enable = $block->isEnable();
+    $helper = $this->helper('Brainvire\Lazyloading\Helper\Data');
+    $container = $block->getProductContainer();
+    $defaulPageNumValue = "2";
+        
+    $lastPageNumber = $block->getLastPageNum();
+?>
+
+<?php if($helper->isEnabled() && $enable): ?>
+    <input type="hidden" id="page_load" name="page_load" value="<?php echo $defaulPageNumValue; ?>">
+    <script type="text/javascript">
+        require(['jquery'], function ($) {
+            jQuery(document).ready( function() {
+                jQuery('.pages').hide();
+                jQuery(window).scroll(function() {
+                    if(jQuery(window).scrollTop() + jQuery(window).height() >= jQuery(document).height()) {
+                        var current_page = parseInt(jQuery('#page_load').val());
+                        var last_page_number = <?php echo $lastPageNumber ?>;
+
+                        if(current_page == undefined || current_page ==""){
+                            current_page = parseInt("<?php echo $defaulPageNumValue; ?>");                    
+                        }
+                        if(current_page <= last_page_number){
+                            loadProducts(current_page);
+                        }
+                    }
+                });
+
+                function loadProducts(page)
+                {                
+                    var page1 = page;
+                    var container = '<?php echo $container; ?>';
+                    var url = window.location.href;
+                    var queryParameter = '?';
+                    if(url.indexOf('?') != -1){
+                        queryParameter = '&';
+                    }
+                    url = url+queryParameter+'p=' + page;
+                    jQuery.ajax(
+                    {
+                        url:url,
+                        type: 'post',                    
+                        processData: false,
+                        contentType: false,
+                        showLoader: true,
+                        success: function(transport)
+                        {                        
+                            var next_items = jQuery(transport).find(container).html();
+                            jQuery(container).append(next_items);
+                            
+                            var next_val = parseInt(page1) + 1;
+                            jQuery('#page_load').val(parseInt(next_val));
+
+                        },
+                    });
+                } 
+            });
+        });
+    </script>
+<?php endif; ?>

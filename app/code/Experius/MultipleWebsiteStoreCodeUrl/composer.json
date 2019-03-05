@@ -1,0 +1,19 @@
+{
+  "name": "experius/module-multiplewebsitestorecodeurl",
+  "description": "This module enabled you to use the same store_code multiple times for different websites in the url.",
+  "authors": [
+    {
+      "name": "Experius",
+      "email": "info@experius.nl"
+    }
+  ],
+  "license": "GPL-3.0",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Experius\\MultipleWebsiteStoreCodeUrl\\": ""
+    }
+  }
+}

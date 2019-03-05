@@ -1,0 +1,127 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart */
+/* @var \Magento\Wishlist\Model\Item $item */
+$item = $block->getItem();
+$product = $item->getProduct();
+
+$ObjectManager= \Magento\Framework\App\ObjectManager::getInstance();
+$context = $ObjectManager->get('Magento\Framework\App\Http\Context');
+$validator = $ObjectManager->get('Lof\HidePrice\Model\Validator');
+
+$isLoggedIn = $context->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH);
+$customer_group_current = $context->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP);
+$helper = $this->helper("Lof\HidePrice\Helper\Data");
+$maxWidth = $helper->getConfig('general/max_width');
+$maxHeight = $helper->getConfig('general/max_height');
+$minWidth = $helper->getConfig('general/min_width');
+$minHeight = $helper->getConfig('general/min_height');
+$product_id = $product->getId(); 
+$validate = $validator->validate($product_id);
+$buttonTitle = __('Add to Cart');
+$connection = $helper->_resource->getConnection();
+$table = $helper->_resource->getTableName('lof_hideprice_product');
+$where = ' entity_id = '.$product_id;
+$select = 'SELECT * FROM ' . $table.' WHERE'.$where;
+$hideprice = array();
+$hideprice = $connection->fetchAll($select);
+
+$addtocart = '';
+
+if ((count($hideprice) > 0 || $validate) && $helper->getConfig('general/enable_module') == 1) {
+
+    if(count($hideprice) > 0) {
+       $hideprice = $helper->hideprice->getCollection()->addFieldToFilter('hideprice_id',$hideprice[0]['hideprice_id']);
+    } elseif($validate) {
+        $hideprice = $helper->hideprice->getCollection()->addFieldToFilter('hideprice_id',$validate);
+    }
+    
+    foreach ($hideprice as $key => $_hideprice) {
+        
+        $customer_group = json_decode($_hideprice->getCallforpriceCustomergroup(),true);
+        $store_id = json_decode($_hideprice->getStoreId(),true);
+        
+        if($_hideprice->getIsActive() == 1 && (in_array($customer_group_current, $customer_group) == true  || ((in_array(0, $customer_group) == true && $isLoggedIn == false))) && ((in_array($helper->getStoreId(), $store_id) == true) || (in_array(0, $store_id ) == true))) {
+
+        } else { ?>
+            <?php foreach ($block->getChildNames() as $childName): ?>
+                <?php /* @escapeNotVerified */ echo $block->getLayout()->renderElement($childName, false); ?>
+            <?php endforeach;?>
+            <div class="box-tocart">
+                <fieldset class="fieldset">
+                <?php if ($item->canHaveQty() && $product->isVisibleInSiteVisibility()): ?>
+                    <div class="field qty">
+                        <label class="label" for="qty[<?php /* @escapeNotVerified */ echo $item->getId() ?>]"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></label>
+                        <div class="control">
+                            <input type="number" data-role="qty" id="qty[<?php /* @escapeNotVerified */ echo $item->getId() ?>]" class="input-text qty" data-validate="{'required-number':true,'validate-greater-than-zero':true}"
+                           name="qty[<?php /* @escapeNotVerified */ echo $item->getId() ?>]" value="<?php /* @escapeNotVerified */ echo $block->getAddToCartQty($item) * 1 ?>">
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <?php if ($product->isSaleable()): ?>
+                <div class="product-item-actions">
+                    <div class="actions-primary">
+                        <button type="button" data-role="tocart" data-post='<?php /* @escapeNotVerified */ echo $block->getItemAddToCartParams($item)?>' title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>" data-item-id="<?php /* @escapeNotVerified */ echo $item->getId()?>" class="action tocart primary">
+                            <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                        </button>
+                    </div>
+                </div>
+                <?php else: ?>
+                    <?php if ($product->getIsSalable()): ?>
+                        <p class="available stock" title="<?php /* @escapeNotVerified */ echo __('Availability') ?>">
+                            <span><?php /* @escapeNotVerified */ echo __('In stock') ?></span>
+                        </p>
+                    <?php else: ?>
+                        <p class="unavailable stock" title="<?php /* @escapeNotVerified */ echo __('Availability') ?>">
+                            <span><?php /* @escapeNotVerified */ echo __('Out of stock') ?></span>
+                        </p>
+                    <?php endif; ?>
+                <?php endif; ?>
+                </fieldset>
+            </div>
+      <?php  }
+    }
+} else {
+?>
+<?php foreach ($block->getChildNames() as $childName): ?>
+    <?php /* @escapeNotVerified */ echo $block->getLayout()->renderElement($childName, false); ?>
+<?php endforeach;?>
+<div class="box-tocart">
+    <fieldset class="fieldset">
+    <?php if ($item->canHaveQty() && $product->isVisibleInSiteVisibility()): ?>
+        <div class="field qty">
+            <label class="label" for="qty[<?php /* @escapeNotVerified */ echo $item->getId() ?>]"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></label>
+            <div class="control">
+                <input type="number" data-role="qty" id="qty[<?php /* @escapeNotVerified */ echo $item->getId() ?>]" class="input-text qty" data-validate="{'required-number':true,'validate-greater-than-zero':true}"
+               name="qty[<?php /* @escapeNotVerified */ echo $item->getId() ?>]" value="<?php /* @escapeNotVerified */ echo $block->getAddToCartQty($item) * 1 ?>">
+            </div>
+        </div>
+    <?php endif; ?>
+    <?php if ($product->isSaleable()): ?>
+    <div class="product-item-actions">
+        <div class="actions-primary">
+            <button type="button" data-role="tocart" data-post='<?php /* @escapeNotVerified */ echo $block->getItemAddToCartParams($item)?>' title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>" data-item-id="<?php /* @escapeNotVerified */ echo $item->getId()?>" class="action tocart primary">
+                <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+            </button>
+        </div>
+    </div>
+    <?php else: ?>
+        <?php if ($product->getIsSalable()): ?>
+            <p class="available stock" title="<?php /* @escapeNotVerified */ echo __('Availability') ?>">
+                <span><?php /* @escapeNotVerified */ echo __('In stock') ?></span>
+            </p>
+        <?php else: ?>
+            <p class="unavailable stock" title="<?php /* @escapeNotVerified */ echo __('Availability') ?>">
+                <span><?php /* @escapeNotVerified */ echo __('Out of stock') ?></span>
+            </p>
+        <?php endif; ?>
+    <?php endif; ?>
+    </fieldset>
+</div>
+<?php } ?>

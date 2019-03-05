@@ -1,0 +1,9 @@
+<?php
+$becomeWholesaler = $block->getWholeSalerStatus();
+?>
+
+<?php if($becomeWholesaler==1) :?>
+<div class="wholesaler-info">
+    <p class="title"><?= $block->escapeHtml(__('The customer has applied for wholesaler.')) ?></p>
+</div>
+<?php endif; ?>	

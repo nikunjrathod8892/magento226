@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>        
+        <add id="Brainvire_Wholesaler::wholesaler" title="Manage Wholesalers" module="Brainvire_Wholesaler" parent="Magento_Customer::customer" sortOrder="999" resource="Brainvire_Wholesaler::wholesaler"/>
+
+        <add id="Brainvire_Wholesaler::pending" title="Pending Wholesalers" module="Brainvire_Wholesaler" sortOrder="0" parent="Brainvire_Wholesaler::wholesaler" action="bvwholesalers/pending/index" resource="Brainvire_Wholesaler::wholesalers"/>
+        <add id="Brainvire_Wholesaler::approved" title="Approved Wholesalers" module="Brainvire_Wholesaler" sortOrder="0" parent="Brainvire_Wholesaler::wholesaler" action="bvwholesalers/approved/index" resource="Brainvire_Wholesaler::wholesalers"/>
+    </menu>
+</config>

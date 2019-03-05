@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+        	<referenceBlock name="customer.wishlist">
+        		<referenceBlock name="customer.wishlist.items">
+		        	<referenceBlock name="customer.wishlist.item.inner">
+			            <referenceBlock name="customer.wishlist.item.cart">
+			            	<arguments>
+			                    <argument name="title" translate="true" xsi:type="string">Add to Cart</argument>
+			                    <argument name="class" translate="true" xsi:type="string">Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart</argument>
+			                    <argument name="template" translate="true" xsi:type="string">Lof_HidePrice::product/wishlist.phtml</argument>
+			                    <argument name="cacheable" translate="true" xsi:type="string">false</argument>
+			                </arguments>
+			            </referenceBlock>
+			        </referenceBlock> 
+			    </referenceBlock> 
+			    <referenceContainer name="customer.wishlist.buttons">
+			    	<referenceBlock name="customer.wishlist.button.toCart" remove="true"/>
+			    </referenceContainer>    
+		    </referenceBlock>      
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<brainvire>
+            <general>
+                <enabled>1</enabled>
+                <enabled_search>1</enabled_search>
+                <enabled_advanced>1</enabled_advanced>
+                <content>.product-items</content>                
+            </general>            
+        </brainvire>
+    </default>
+</config>
